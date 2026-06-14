@@ -1,0 +1,122 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%; height: 100%;
+  background: #03030f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  font-family: 'Courier New', monospace;
+}
+
+#container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#game-canvas {
+  display: block;
+  image-rendering: pixelated;
+  width: min(100vw, calc(100vh * 635 / 640));
+  aspect-ratio: 635 / 640;
+}
+
+/* Scanline overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.08) 2px,
+    rgba(0,0,0,0.08) 4px
+  );
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Name entry overlay */
+#name-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(3,3,20,0.85);
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+#name-box {
+  background: #0d0d2a;
+  border: 1px solid rgba(100,120,255,0.5);
+  border-radius: 8px;
+  padding: 32px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+  box-shadow: 0 0 40px rgba(100,120,255,0.3), 0 0 80px rgba(100,120,255,0.1);
+  min-width: 280px;
+}
+
+#name-score {
+  font-size: 13px;
+  color: #e0e0ff;
+  letter-spacing: 2px;
+}
+
+#name-box label {
+  color: #6688ff;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+#name-input {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(100,120,255,0.4);
+  border-radius: 4px;
+  color: #e0e0ff;
+  font-family: 'Courier New', monospace;
+  font-size: 18px;
+  padding: 8px 14px;
+  text-align: center;
+  outline: none;
+  width: 200px;
+  letter-spacing: 2px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#name-input:focus {
+  border-color: #6688ff;
+  box-shadow: 0 0 12px rgba(102,136,255,0.4);
+}
+
+#name-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+#name-box button {
+  background: transparent;
+  border: 1px solid #cc00ff;
+  color: #cc00ff;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  letter-spacing: 4px;
+  padding: 8px 24px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+#name-box button:hover {
+  background: rgba(204,0,255,0.15);
+  box-shadow: 0 0 16px rgba(204,0,255,0.4);
+}

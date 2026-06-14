@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self';">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <title>STAX — Neon Edition</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="container">
+    <canvas id="game-canvas"></canvas>
+  </div>
+
+  <div id="name-overlay">
+    <div id="name-box">
+      <div id="name-score"></div>
+      <label for="name-input">Enter your name</label>
+      <form id="name-form">
+        <input id="name-input" type="text" maxlength="12" autocomplete="off" spellcheck="false" placeholder="Anonymous">
+        <button type="submit">SAVE</button>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
