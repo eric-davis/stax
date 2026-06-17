@@ -6,7 +6,7 @@ import { AudioManager } from './audio.js';
 
 const HS_KEY = 'stax_highscores';
 const TURNSTILE_SITE_KEY = '0x4AAAAAADmriu19X8H7zKoL';
-const VERSION = 'v1.4';
+const VERSION = 'dev';
 
 class Game {
   constructor() {
@@ -211,6 +211,13 @@ class Game {
     };
     this.nameOverlay.style.display = 'none';
     this.state = 'menu';
+
+    if (this._turnstileWidgetId != null && !this._turnstileToken) {
+      await new Promise(resolve => {
+        const id = setInterval(() => { if (this._turnstileToken) { clearInterval(id); resolve(); } }, 50);
+        setTimeout(() => { clearInterval(id); resolve(); }, 4000);
+      });
+    }
 
     try {
       const ctrl = new AbortController();

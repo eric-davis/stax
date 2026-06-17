@@ -17,6 +17,8 @@ jobs:
           key: ${{ secrets.DEPLOY_KEY }}
           script: |
             cd /var/www/esdavis.dev/stax
+            git checkout js/main.js
             git pull origin main
+            sed -i "s/const VERSION = '[^']*';/const VERSION = '${{ github.event.release.tag_name }}';/" js/main.js
             api/.venv/bin/pip install -q -r api/requirements.txt
             sudo systemctl restart stax-api
