@@ -12,10 +12,15 @@ STAX: Neon Edition is a fast-paced, addictive falling-block puzzle game inspired
 *   **Level Progression:**  The game gets faster as you progress through 20 levels, increasing the challenge.
 *   **Advanced Mechanics:** Includes features like a ghost piece, 3-piece next preview, lock delay, SRS wall kicks, and a 7-bag randomizer for balanced piece distribution.
 *   **Synth Soundtrack & SFX:** Enjoy two synthesized BGM tracks — **CLASSIC** (140 BPM) and **DARKNESS** (110 BPM) — that accelerate up to 2× speed as you level up, plus satisfying synth sound effects for every action. Toggle music with **M** and cycle tracks with **N**.
-*   **Leaderboard:** Compete for the high score and track your progress with a top-10 leaderboard stored in localStorage.
+*   **Global Leaderboard:** Scores are tracked on a shared global leaderboard backed by a live server; the game falls back to local browser storage if the server is unreachable.
+*   **Security:** Cloudflare Turnstile invisible challenge protects score submission from automated bots.
 *   **Visual Effects:**  Experience particle effects on line clears and a flash on level up for added feedback.
 
 ## How to Run
+
+**Play Online:** [https://esdavis.dev/stax](https://esdavis.dev/stax) — no setup needed.
+
+### Run Locally
 
 This game requires a simple HTTP server to run due to the use of ES modules. You cannot simply open `index.html` in your browser.
 
@@ -54,3 +59,5 @@ This game requires a simple HTTP server to run due to the use of ES modules. You
 *   `js/renderer.js`:  Handles all Canvas 2D drawing, effects, and HUD panels.
 *   `js/main.js`:  The main game script that wires everything together and manages the game state.
 *   `favicon.svg`: SVG favicon used by the browser tab.
+*   `api/app.py`: Flask + SQLite REST API powering the global leaderboard.
+*   `api/requirements.txt`: Python dependencies for the API.
