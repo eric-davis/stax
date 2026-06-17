@@ -16,7 +16,8 @@ class Game {
     this.state = 'menu';
     this.engine = null;
     this.scorer = null;
-    this.highScores = this._loadScores();
+    this.highScores = this._loadLocalScores();
+    this._loadScores();
 
     this.renderer = new Renderer(this.canvas);
     this.audio = new AudioManager();
@@ -177,7 +178,7 @@ class Game {
     this.nameInput.focus();
   }
 
-  _submitScore() {
+  async _submitScore() {
     const name = (this.nameInput.value.replace(/[\x00-\x1f\x7f]/g, '').trim() || 'Anonymous').substring(0, 12);
     const entry = {
       name,
@@ -186,15 +187,49 @@ class Game {
       lines: this.scorer.lines,
       date: new Date().toLocaleDateString(),
     };
+    this.nameOverlay.style.display = 'none';
+    this.state = 'menu';
+
+    try {
+      const ctrl = new AbortController();
+      const tid = setTimeout(() => ctrl.abort(), 5000);
+      const res = await fetch('./api/scores', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, score: entry.score, level: entry.level, lines: entry.lines }),
+        signal: ctrl.signal,
+      });
+      clearTimeout(tid);
+      const data = await res.json();
+      if (data.ok && Array.isArray(data.scores)) {
+        this.highScores = data.scores;
+        localStorage.setItem(HS_KEY, JSON.stringify(this.highScores));
+        return;
+      }
+    } catch { /* fall through to local save */ }
+
     this.highScores.push(entry);
     this.highScores.sort((a, b) => b.score - a.score);
     this.highScores = this.highScores.slice(0, 10);
     localStorage.setItem(HS_KEY, JSON.stringify(this.highScores));
-    this.nameOverlay.style.display = 'none';
-    this.state = 'menu';
   }
 
-  _loadScores() {
+  async _loadScores() {
+    try {
+      const ctrl = new AbortController();
+      const tid = setTimeout(() => ctrl.abort(), 5000);
+      const res = await fetch('./api/scores', { signal: ctrl.signal });
+      clearTimeout(tid);
+      if (!res.ok) return;
+      const data = await res.json();
+      if (Array.isArray(data)) {
+        this.highScores = data;
+        localStorage.setItem(HS_KEY, JSON.stringify(this.highScores));
+      }
+    } catch { /* silently keep local scores */ }
+  }
+
+  _loadLocalScores() {
     try {
       const raw = JSON.parse(localStorage.getItem(HS_KEY) || '[]');
       if (!Array.isArray(raw)) return [];

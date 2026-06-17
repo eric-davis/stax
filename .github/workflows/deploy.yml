@@ -18,3 +18,5 @@ jobs:
           script: |
             cd /var/www/esdavis.dev/stax
             git pull origin main
+            api/.venv/bin/pip install -q -r api/requirements.txt
+            sudo systemctl restart stax-api

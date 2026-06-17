@@ -43,7 +43,7 @@ main.js (Game)
 
 **Audio:** `AudioManager._init()` is lazy (first user gesture). BGM is note-by-note scheduled via Web Audio API and loops by setting a `setTimeout` ~200 ms before the melody ends. SFX names: `move`, `rotate`, `softDrop`, `hardDrop`, `lineClear`, `stax` (4-line clear), `tSpin`, `levelUp`, `gameOver`.
 
-**High scores:** Stored in `localStorage` under key `stax_highscores` as a JSON array, top 10 by score.
+**High scores:** Global leaderboard backed by `api/app.py` (Flask + SQLite). `Game._loadLocalScores()` reads `localStorage` key `stax_highscores` for immediate rendering; `Game._loadScores()` fetches `./api/scores` async and overwrites on success. `Game._submitScore()` POSTs to `./api/scores` and updates from the response; falls back to localStorage-only on any error. The renderer receives whichever `this.highScores` is current — no special handling needed.
 
 ## Key constants
 
