@@ -4,7 +4,6 @@ import sqlite3
 from datetime import datetime
 from flask import Flask, request, jsonify
 from flask_limiter import Limiter
-from flask_limiter.util import get_remote_address
 
 app = Flask(__name__)
 
@@ -17,8 +16,11 @@ _LOCALHOST_ORIGINS = {
     'http://127.0.0.1:8765',
 }
 
+def _real_ip():
+    return request.headers.get('X-Real-IP', request.remote_addr)
+
 limiter = Limiter(
-    get_remote_address,
+    _real_ip,
     app=app,
     default_limits=[],
     storage_uri='memory://',
