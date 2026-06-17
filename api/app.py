@@ -1,7 +1,10 @@
 import hmac
+import json
 import os
 import re
 import sqlite3
+import urllib.parse
+import urllib.request
 from datetime import datetime
 from flask import Flask, request, jsonify
 from flask_limiter import Limiter
@@ -61,6 +64,29 @@ def _top10():
     return [dict(r) for r in rows]
 
 
+def _verify_turnstile(token, remote_ip):
+    secret = os.environ.get('STAX_TURNSTILE_SECRET', '')
+    if not secret:
+        return True  # fail open when unconfigured (local dev)
+    if not token:
+        return False
+    data = urllib.parse.urlencode({
+        'secret': secret,
+        'response': token,
+        'remoteip': remote_ip,
+    }).encode()
+    try:
+        req = urllib.request.urlopen(
+            'https://challenges.cloudflare.com/turnstile/v1/siteverify',
+            data=data,
+            timeout=3,
+        )
+        result = json.loads(req.read())
+        return result.get('success', False)
+    except Exception:
+        return True  # fail open on Cloudflare outage
+
+
 @app.after_request
 def _cors(response):
     origin = request.headers.get('Origin', '')
@@ -86,6 +112,10 @@ def get_scores():
 @limiter.limit('1 per 10 seconds')
 def post_score():
     data = request.get_json(silent=True) or {}
+
+    cf_token = str(data.get('cf_turnstile_response', ''))
+    if not _verify_turnstile(cf_token, _real_ip()):
+        return jsonify({'ok': False, 'error': 'Challenge failed'}), 403
 
     raw_name = str(data.get('name', ''))
     name = re.sub(r'[\x00-\x1f\x7f]', '', raw_name).strip()[:12] or 'Anonymous'

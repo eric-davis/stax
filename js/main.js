@@ -5,6 +5,8 @@ import { InputHandler } from './input.js';
 import { AudioManager } from './audio.js';
 
 const HS_KEY = 'stax_highscores';
+const TURNSTILE_SITE_KEY = '0x4AAAAAADmriu19X8H7zKoL';
+const VERSION = 'v1.4';
 
 class Game {
   constructor() {
@@ -37,6 +39,10 @@ class Game {
     });
     this.input.attach();
 
+    this._turnstileToken = null;
+    this._turnstileWidgetId = null;
+    window.addEventListener('load', () => this._initTurnstile());
+
     // Start game on Space from menu
     window.addEventListener('keydown', e => {
       if (this.state === 'menu' && (e.code === 'Space' || e.code === 'Enter')) {
@@ -52,6 +58,17 @@ class Game {
 
     this._lastTime = null;
     requestAnimationFrame(ts => this._loop(ts));
+  }
+
+  _initTurnstile() {
+    if (typeof turnstile === 'undefined') return;
+    this._turnstileWidgetId = turnstile.render('#turnstile-container', {
+      sitekey: TURNSTILE_SITE_KEY,
+      execution: 'execute',
+      callback: (token) => { this._turnstileToken = token; },
+      'expired-callback': () => { this._turnstileToken = null; },
+      'error-callback': () => { this._turnstileToken = null; },
+    });
   }
 
   _startGame() {
@@ -165,6 +182,7 @@ class Game {
       highScores: this.highScores,
       musicMuted: this.audio.isMusicMuted(),
       musicTrack: this.audio.getTrackName(),
+      version: VERSION,
     });
 
     requestAnimationFrame(ts => this._loop(ts));
@@ -176,6 +194,10 @@ class Game {
       `Score: ${this.scorer.score.toLocaleString()}  •  Level ${this.scorer.level}  •  ${this.scorer.lines} lines`;
     this.nameOverlay.style.display = 'flex';
     this.nameInput.focus();
+    if (this._turnstileWidgetId != null) {
+      this._turnstileToken = null;
+      turnstile.execute(this._turnstileWidgetId);
+    }
   }
 
   async _submitScore() {
@@ -196,7 +218,7 @@ class Game {
       const res = await fetch('./api/scores', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, score: entry.score, level: entry.level, lines: entry.lines }),
+        body: JSON.stringify({ name, score: entry.score, level: entry.level, lines: entry.lines, cf_turnstile_response: this._turnstileToken || '' }),
         signal: ctrl.signal,
       });
       clearTimeout(tid);
@@ -204,6 +226,7 @@ class Game {
       if (data.ok && Array.isArray(data.scores)) {
         this.highScores = data.scores;
         localStorage.setItem(HS_KEY, JSON.stringify(this.highScores));
+        this._turnstileToken = null;
         return;
       }
     } catch { /* fall through to local save */ }
@@ -212,6 +235,7 @@ class Game {
     this.highScores.sort((a, b) => b.score - a.score);
     this.highScores = this.highScores.slice(0, 10);
     localStorage.setItem(HS_KEY, JSON.stringify(this.highScores));
+    this._turnstileToken = null;
   }
 
   async _loadScores() {

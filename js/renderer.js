@@ -325,7 +325,7 @@ export class Renderer {
     this._text(text, x, y, size, color, 'center', color);
   }
 
-  _drawMenu(highScores) {
+  _drawMenu(highScores, version) {
     const ctx = this.ctx;
     ctx.clearRect(0, 0, CANVAS_W, CANVAS_H);
     ctx.fillStyle = BG;
@@ -343,6 +343,9 @@ export class Renderer {
     ctx.font = "12px 'Courier New', monospace";
     ctx.fillStyle = '#6688ff';
     ctx.fillText('N E O N  E D I T I O N', CANVAS_W / 2, 125);
+    ctx.font = "10px 'Courier New', monospace";
+    ctx.fillStyle = '#505070';
+    ctx.fillText(version ?? '', CANVAS_W / 2, 145);
     ctx.restore();
 
     const pulse = 0.6 + 0.4 * Math.sin(Date.now() / 500);
@@ -407,12 +410,12 @@ export class Renderer {
     ctx.restore();
   }
 
-  render({ state, engine, scorer, highScores, musicMuted, musicTrack }) {
+  render({ state, engine, scorer, highScores, musicMuted, musicTrack, version }) {
     this._updateEffects();
     const ctx = this.ctx;
 
     if (state === 'menu') {
-      this._drawMenu(highScores);
+      this._drawMenu(highScores, version);
       return;
     }
 

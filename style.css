@@ -120,3 +120,25 @@ body::after {
   background: rgba(204,0,255,0.15);
   box-shadow: 0 0 16px rgba(204,0,255,0.4);
 }
+
+#privacy-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  color: #505070;
+  padding: 4px 0;
+  z-index: 11;
+  pointer-events: none;
+}
+#privacy-footer a {
+  color: #6060a0;
+  text-decoration: none;
+  pointer-events: all;
+}
+#privacy-footer a:hover {
+  color: #8888cc;
+}
