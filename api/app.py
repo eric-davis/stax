@@ -68,18 +68,18 @@ def _cors(response):
     return response
 
 
-@app.route('/', methods=['OPTIONS'])
+@app.route('/scores', methods=['OPTIONS'])
 def _options():
     return '', 204
 
 
-@app.route('/', methods=['GET'])
+@app.route('/scores', methods=['GET'])
 @limiter.limit('200 per minute')
 def get_scores():
     return jsonify(_top10())
 
 
-@app.route('/', methods=['POST'])
+@app.route('/scores', methods=['POST'])
 @limiter.limit('1 per 10 seconds')
 def post_score():
     data = request.get_json(silent=True) or {}
