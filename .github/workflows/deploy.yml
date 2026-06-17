@@ -1,9 +1,6 @@
 name: Deploy to esdavis.dev
 
 on:
-  push:
-    branches:
-      - main
   release:
     types: [published]
 
