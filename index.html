@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://challenges.cloudflare.com; style-src 'self'; frame-src https://challenges.cloudflare.com; connect-src 'self' https://challenges.cloudflare.com; object-src 'none'; base-uri 'self'; form-action 'self';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; frame-src https://challenges.cloudflare.com; connect-src 'self' https://challenges.cloudflare.com; object-src 'none'; base-uri 'self'; form-action 'self';">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <title>STAX — Neon Edition</title>
   <link rel="stylesheet" href="style.css">
@@ -27,7 +27,7 @@
   <footer id="privacy-footer">
     This site uses <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">Cloudflare Turnstile</a> for spam protection.
   </footer>
-  <div id="turnstile-container" style="display:none"></div>
+  <div id="turnstile-container"></div>
   <script src="https://challenges.cloudflare.com/turnstile/v1/api.js?render=explicit" defer></script>
   <script type="module" src="js/main.js"></script>
 </body>

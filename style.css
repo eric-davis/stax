@@ -121,6 +121,8 @@ body::after {
   box-shadow: 0 0 16px rgba(204,0,255,0.4);
 }
 
+#turnstile-container { display: none; }
+
 #privacy-footer {
   position: fixed;
   bottom: 0;
