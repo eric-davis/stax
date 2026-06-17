@@ -1,3 +1,4 @@
+import hmac
 import os
 import re
 import sqlite3
@@ -115,6 +116,19 @@ def post_score():
     conn.close()
 
     return jsonify({'ok': True, 'scores': _top10()})
+
+
+@app.route('/scores', methods=['DELETE'])
+def delete_scores():
+    admin_key = os.environ.get('STAX_ADMIN_KEY', '')
+    auth = request.headers.get('Authorization', '')
+    if not admin_key or not hmac.compare_digest(auth, f'Bearer {admin_key}'):
+        return jsonify({'ok': False, 'error': 'Forbidden'}), 403
+    conn = _connect()
+    conn.execute('DELETE FROM scores')
+    conn.commit()
+    conn.close()
+    return jsonify({'ok': True})
 
 
 @app.errorhandler(429)
