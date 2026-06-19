@@ -273,7 +273,8 @@ export class Renderer {
     }
 
     // Track name + mute indicator
-    const trackColor = musicTrack === 'DARKNESS' ? '#cc44ff' : '#39ff14';
+    const TRACK_COLORS = { CLASSIC: '#39ff14', DARKNESS: '#cc44ff', PULSE: '#00ffff', GROOVE: '#ff6600', SWIFT: '#ff0055', LOFI: '#88aaff', RETRO: '#ffdd00' };
+    const trackColor = TRACK_COLORS[musicTrack] || '#39ff14';
     this._text(`♪ ${musicTrack}`, cx, BOARD_Y + BOARD_H - 58, 13, musicMuted ? '#7070aa' : trackColor, 'center', musicMuted ? null : trackColor);
     const muteColor = musicMuted ? '#7070aa' : '#aaaacc';
     this._text(musicMuted ? 'MUTED' : 'MUSIC ON', cx, BOARD_Y + BOARD_H - 38, 12, muteColor, 'center');

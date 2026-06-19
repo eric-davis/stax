@@ -45,6 +45,123 @@ const BGM_BASS_2 = [
   [110,1],  [110,1],  [73.42,1], [73.42,1],
 ];
 
+// Track 3: PULSE — C major pentatonic, 128 BPM, sawtooth melody + square bass
+const BGM_TEMPO_3 = 128;
+const BGM_MELODY_3 = [
+  [523.25,0.5],[659.25,0.5],[783.99,0.5],[880,0.5],
+  [1046.5,1],[880,0.5],[783.99,0.5],
+  [659.25,0.5],[587.33,0.5],[523.25,0.5],[440,0.5],
+  [523.25,2],[0,0.5],
+  [880,0.5],[783.99,0.5],[659.25,0.5],[523.25,0.5],
+  [587.33,0.5],[659.25,0.5],[783.99,0.5],[880,0.5],
+  [1046.5,0.5],[880,0.5],[659.25,1],
+  [440,0.5],[523.25,0.5],[587.33,0.5],[523.25,0.5],
+  [440,2],[0,0.5],
+];
+const BGM_BASS_3 = [
+  [130.81,1],[130.81,1],[196,1],[196,1],
+  [220,1],[220,1],[196,1],[196,1],
+  [130.81,1],[130.81,1],[174.61,1],[174.61,1],
+  [196,1],[196,1],[130.81,1],[130.81,1],
+];
+
+// Track 4: GROOVE — G minor, 90 BPM, sine melody + triangle bass
+const BGM_TEMPO_4 = 90;
+const BGM_MELODY_4 = [
+  [783.99,0.5],[698.46,0.5],[622.25,0.5],[587.33,0.5],
+  [523.25,1],[587.33,0.5],[466.16,0.5],
+  [440,0.5],[466.16,0.5],[523.25,0.5],[466.16,0.5],
+  [392,2],[0,0.5],
+  [587.33,0.5],[622.25,0.5],[698.46,0.5],[783.99,0.5],
+  [880,1],[783.99,0.5],[698.46,0.5],
+  [622.25,0.5],[587.33,0.5],[523.25,0.5],[466.16,0.5],
+  [392,2],[0,0.5],
+];
+const BGM_BASS_4 = [
+  [98,1],[98,1],[116.54,1],[116.54,1],
+  [130.81,1],[130.81,1],[110,1],[110,1],
+  [87.31,1],[87.31,1],[98,1],[98,1],
+  [116.54,1],[116.54,1],[98,1],[98,1],
+];
+
+// Track 5: SWIFT — G major, 130 BPM, square melody + square bass
+const BGM_TEMPO_5 = 130;
+const BGM_MELODY_5 = [
+  [783.99,0.25],[659.25,0.25],[587.33,0.25],[659.25,0.25],
+  [783.99,0.5],[880,0.25],[783.99,0.25],
+  [659.25,0.25],[587.33,0.25],[523.25,0.25],[587.33,0.25],
+  [659.25,0.75],[0,0.25],
+  [440,0.25],[493.88,0.25],[523.25,0.25],[587.33,0.25],
+  [659.25,0.25],[783.99,0.25],[659.25,0.25],[587.33,0.25],
+  [523.25,0.25],[440,0.25],[392,0.5],
+  [440,0.75],[0,0.25],
+  [1046.5,0.5],[880,0.25],[783.99,0.25],
+  [659.25,0.25],[587.33,0.25],[659.25,0.25],[783.99,0.25],
+  [880,0.5],[783.99,0.25],[659.25,0.25],
+  [587.33,0.75],[0,0.25],
+  [392,0.25],[440,0.25],[493.88,0.25],[523.25,0.25],
+  [587.33,0.25],[659.25,0.25],[783.99,0.25],[880,0.25],
+  [1046.5,0.5],[880,0.25],[783.99,0.25],
+  [392,1.5],[0,0.5],
+];
+const BGM_BASS_5 = [
+  [98,0.5],[98,0.5],[146.83,0.5],[146.83,0.5],
+  [130.81,0.5],[130.81,0.5],[146.83,0.5],[146.83,0.5],
+  [110,0.5],[110,0.5],[130.81,0.5],[130.81,0.5],
+  [98,0.5],[98,0.5],[110,0.5],[110,0.5],
+];
+
+// Track 6: LOFI — A minor, 75 BPM, triangle melody + sine bass
+const BGM_TEMPO_6 = 75;
+const BGM_MELODY_6 = [
+  [440,2],[523.25,1],[587.33,1],
+  [659.25,3],[0,1],
+  [523.25,1],[587.33,1],[523.25,1],[440,1],
+  [392,2],[0,2],
+  [587.33,2],[659.25,1],[783.99,1],
+  [880,3],[0,1],
+  [783.99,1],[698.46,1],[659.25,1],[523.25,1],
+  [440,4],[0,0.5],
+];
+const BGM_BASS_6 = [
+  [110,2],[130.81,2],[146.83,2],[164.81,2],
+  [174.61,2],[164.81,2],[146.83,2],[130.81,2],
+];
+
+// Track 7: RETRO — A minor, 160 BPM, Korobeiniki-inspired, square melody + sawtooth bass
+const BGM_TEMPO_7 = 160;
+const BGM_MELODY_7 = [
+  [440,0.75],[329.63,0.25],[349.23,0.5],[392,0.5],
+  [440,0.75],[392,0.25],[349.23,0.5],[329.63,0.5],
+  [261.63,0.75],[293.66,0.25],[329.63,1],[0,0.5],
+  [349.23,0.5],[523.25,0.75],[440,0.25],
+  [392,0.5],[349.23,0.5],[329.63,0.75],[261.63,0.25],
+  [293.66,0.5],[329.63,0.5],[349.23,1],[0,0.5],
+  [329.63,0.5],[392,0.5],[440,0.5],[523.25,0.5],
+  [587.33,0.75],[523.25,0.25],[493.88,0.5],[440,0.5],
+  [392,0.75],[349.23,0.25],[329.63,1],[0,0.5],
+  [440,0.75],[392,0.25],[349.23,0.5],[329.63,0.5],
+  [261.63,0.5],[293.66,0.5],[329.63,0.5],[349.23,0.5],
+  [440,2],[0,0.5],
+];
+const BGM_BASS_7 = [
+  [110,1],[110,1],[164.81,1],[164.81,1],
+  [130.81,1],[130.81,1],[164.81,1],[164.81,1],
+  [174.61,1],[174.61,1],[164.81,1],[164.81,1],
+  [98,1],[98,1],[110,1],[110,1],
+];
+
+const TRACKS = [
+  null,
+  { melody: BGM_MELODY,   bass: BGM_BASS,   tempo: BGM_TEMPO,   melOsc: 'square',   bassOsc: 'sawtooth', bassGain: 0.6  },
+  { melody: BGM_MELODY_2, bass: BGM_BASS_2, tempo: BGM_TEMPO_2, melOsc: 'triangle', bassOsc: 'sine',     bassGain: 0.4  },
+  { melody: BGM_MELODY_3, bass: BGM_BASS_3, tempo: BGM_TEMPO_3, melOsc: 'sawtooth', bassOsc: 'square',   bassGain: 0.5  },
+  { melody: BGM_MELODY_4, bass: BGM_BASS_4, tempo: BGM_TEMPO_4, melOsc: 'sine',     bassOsc: 'triangle', bassGain: 0.35 },
+  { melody: BGM_MELODY_5, bass: BGM_BASS_5, tempo: BGM_TEMPO_5, melOsc: 'square',   bassOsc: 'square',   bassGain: 0.55 },
+  { melody: BGM_MELODY_6, bass: BGM_BASS_6, tempo: BGM_TEMPO_6, melOsc: 'triangle', bassOsc: 'sine',     bassGain: 0.3  },
+  { melody: BGM_MELODY_7, bass: BGM_BASS_7, tempo: BGM_TEMPO_7, melOsc: 'square',   bassOsc: 'sawtooth', bassGain: 0.55 },
+];
+
 export class AudioManager {
   constructor() {
     this.ctx = null;
@@ -79,7 +196,7 @@ export class AudioManager {
   isMusicMuted() { return this._musicMuted; }
 
   cycleTrack() {
-    this._currentTrack = this._currentTrack === 1 ? 2 : 1;
+    this._currentTrack = (this._currentTrack % 7) + 1;
     if (this.bgmActive) {
       this.bgmActive = false;
       this.bgmTimeouts.forEach(id => clearTimeout(id));
@@ -96,7 +213,7 @@ export class AudioManager {
     return this._currentTrack;
   }
 
-  getTrackName() { return this._currentTrack === 1 ? 'CLASSIC' : 'DARKNESS'; }
+  getTrackName() { return ['CLASSIC','DARKNESS','PULSE','GROOVE','SWIFT','LOFI','RETRO'][this._currentTrack - 1]; }
 
   setLevel(level) { this._level = level; }
 
@@ -205,14 +322,9 @@ export class AudioManager {
     const now = this.ctx.currentTime;
     let t = now;
 
-    const melody      = this._currentTrack === 2 ? BGM_MELODY_2 : BGM_MELODY;
-    const bass        = this._currentTrack === 2 ? BGM_BASS_2   : BGM_BASS;
-    const baseTempo = this._currentTrack === 2 ? BGM_TEMPO_2 : BGM_TEMPO;
+    const { melody, bass, tempo: baseTempo, melOsc: melOscType, bassOsc: bassOscType, bassGain: bassGainV } = TRACKS[this._currentTrack];
     const tempoMultiplier = Math.min(2.0, 1 + (this._level - 1) * 0.05);
     const beatDur = (60 / baseTempo) / tempoMultiplier;
-    const melOscType  = this._currentTrack === 2 ? 'triangle' : 'square';
-    const bassOscType = this._currentTrack === 2 ? 'sine' : 'sawtooth';
-    const bassGainV   = this._currentTrack === 2 ? 0.4 : 0.6;
 
     // Schedule melody
     for (const [freq, beats] of melody) {
