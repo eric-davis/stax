@@ -86,6 +86,11 @@ class Game {
       if (this.state === 'menu') { e.preventDefault(); this._startGame(); }
     }, { passive: false });
 
+    // Start game on click from menu (desktop mouse)
+    this.canvas.addEventListener('click', () => {
+      if (this.state === 'menu') this._startGame();
+    });
+
     this.nameForm.addEventListener('submit', e => {
       e.preventDefault();
       this._submitScore();

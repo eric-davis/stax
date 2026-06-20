@@ -37,6 +37,9 @@ export class Renderer {
     this.flashRows = [];
     this.flashAlpha = 0;
     this.levelFlash = 0;
+    this._startHint = ('ontouchstart' in window || navigator.maxTouchPoints > 0)
+      ? 'TAP TO START'
+      : 'CLICK OR PRESS SPACE TO START';
   }
 
   triggerLineClearEffect(clearedRows) {
@@ -352,7 +355,7 @@ export class Renderer {
     const pulse = 0.6 + 0.4 * Math.sin(Date.now() / 500);
     ctx.save();
     ctx.globalAlpha = pulse;
-    this._text('PRESS SPACE TO START', CANVAS_W / 2, 175, 14, '#00f5ff', 'center', '#00f5ff');
+    this._text(this._startHint, CANVAS_W / 2, 175, 14, '#00f5ff', 'center', '#00f5ff');
     ctx.restore();
 
     if (highScores.length > 0) {
