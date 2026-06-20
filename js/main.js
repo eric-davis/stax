@@ -41,6 +41,7 @@ class Game {
     this.input.attach();
 
     this.touchControlsEl = document.getElementById('touch-controls');
+    this.touchControlsEl.style.display = 'none';
 
     this.touchInput = new TouchInputHandler(this.canvas, {
       moveLeft:   () => this._move(-1),
