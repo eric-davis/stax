@@ -2,6 +2,7 @@ import { Engine } from './engine.js';
 import { Scorer } from './scoring.js';
 import { Renderer } from './renderer.js';
 import { InputHandler } from './input.js';
+import { TouchInputHandler } from './touch.js';
 import { AudioManager } from './audio.js';
 
 const HS_KEY = 'stax_highscores';
@@ -39,6 +40,26 @@ class Game {
     });
     this.input.attach();
 
+    this.touchInput = new TouchInputHandler(this.canvas, {
+      moveLeft:  () => this._move(-1),
+      moveRight: () => this._move(1),
+      softDrop:  () => this._softDrop(),
+      hardDrop:  () => this._hardDrop(),
+      rotateCW:  () => this._rotate('cw'),
+      rotateCCW: () => this._rotate('ccw'),
+      pause:     () => this._togglePause(),
+    });
+    this.touchInput.attach();
+    this.touchInput.attachButtons({
+      left:     document.getElementById('btn-left'),
+      right:    document.getElementById('btn-right'),
+      softDrop: document.getElementById('btn-soft'),
+      hardDrop: document.getElementById('btn-hard'),
+      rotateCW:  document.getElementById('btn-rot-cw'),
+      rotateCCW: document.getElementById('btn-rot-ccw'),
+      pause:    document.getElementById('btn-pause'),
+    });
+
     this._turnstileToken = null;
     this._turnstileWidgetId = null;
     window.addEventListener('load', () => this._initTurnstile());
@@ -50,6 +71,11 @@ class Game {
         this._startGame();
       }
     });
+
+    // Start game on tap from menu
+    this.canvas.addEventListener('touchend', e => {
+      if (this.state === 'menu') { e.preventDefault(); this._startGame(); }
+    }, { passive: false });
 
     this.nameForm.addEventListener('submit', e => {
       e.preventDefault();
@@ -76,6 +102,7 @@ class Game {
     this.engine = new Engine(this.scorer);
     this.state = 'playing';
     this.input.setPaused(false);
+    this.touchInput.setPaused(false);
     this.audio.setLevel(1);
     this.audio.startBGM();
   }
@@ -106,10 +133,12 @@ class Game {
     if (this.state === 'playing') {
       this.state = 'paused';
       this.input.setPaused(true);
+      this.touchInput.setPaused(true);
       this.audio.pauseBGM();
     } else if (this.state === 'paused') {
       this.state = 'playing';
       this.input.setPaused(false);
+      this.touchInput.setPaused(false);
       this.audio.resumeBGM();
     }
   }
@@ -131,6 +160,7 @@ class Game {
       this.nameOverlay.style.display = 'none';
       this.state = 'menu';
       this.input.setPaused(false);
+      this.touchInput.setPaused(false);
       this.engine = null;
       this.scorer = null;
     }
@@ -142,6 +172,7 @@ class Game {
     if (result.gameOver) {
       this.state = 'gameover';
       this.input.setPaused(true);
+      this.touchInput.setPaused(true);
       this.audio.stopBGM();
       this.audio.play('gameOver');
       setTimeout(() => this._showNameEntry(), 1200);

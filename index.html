@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; frame-src https://challenges.cloudflare.com; connect-src 'self' https://challenges.cloudflare.com; object-src 'none'; base-uri 'self'; form-action 'self';">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <title>STAX — Neon Edition</title>
@@ -11,6 +11,20 @@
 <body>
   <div id="container">
     <canvas id="game-canvas"></canvas>
+  </div>
+
+  <div id="touch-controls">
+    <div class="touch-row">
+      <button class="touch-btn" id="btn-left"    aria-label="Move Left">&#9664;</button>
+      <button class="touch-btn" id="btn-rot-ccw" aria-label="Rotate CCW">&#8634;</button>
+      <button class="touch-btn" id="btn-rot-cw"  aria-label="Rotate CW">&#8635;</button>
+      <button class="touch-btn" id="btn-right"   aria-label="Move Right">&#9654;</button>
+    </div>
+    <div class="touch-row">
+      <button class="touch-btn" id="btn-soft"  aria-label="Soft Drop">&#9660;</button>
+      <button class="touch-btn" id="btn-hard"  aria-label="Hard Drop">&#9651;</button>
+      <button class="touch-btn" id="btn-pause" aria-label="Pause">&#9646;&#9646;</button>
+    </div>
   </div>
 
   <div id="name-overlay">
