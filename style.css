@@ -175,9 +175,18 @@ html, body {
   border-color: rgba(100,120,255,0.8);
 }
 
+.touch-row-sm {
+  /* compact row for utility buttons */
+}
+
+.touch-btn-sm {
+  min-height: 44px;
+  font-size: 18px;
+}
+
 @media (pointer: coarse) {
   #game-canvas {
-    width: min(100vw, calc((100vh - 132px) * 635 / 640));
+    width: min(100vw, calc((100vh - 188px) * 635 / 640));
   }
   #touch-controls {
     display: flex;

@@ -40,24 +40,32 @@ class Game {
     });
     this.input.attach();
 
+    this.touchControlsEl = document.getElementById('touch-controls');
+
     this.touchInput = new TouchInputHandler(this.canvas, {
-      moveLeft:  () => this._move(-1),
-      moveRight: () => this._move(1),
-      softDrop:  () => this._softDrop(),
-      hardDrop:  () => this._hardDrop(),
-      rotateCW:  () => this._rotate('cw'),
-      rotateCCW: () => this._rotate('ccw'),
-      pause:     () => this._togglePause(),
+      moveLeft:   () => this._move(-1),
+      moveRight:  () => this._move(1),
+      softDrop:   () => this._softDrop(),
+      hardDrop:   () => this._hardDrop(),
+      rotateCW:   () => this._rotate('cw'),
+      rotateCCW:  () => this._rotate('ccw'),
+      pause:      () => this._togglePause(),
+      quit:       () => this._quit(),
+      toggleMute: () => this.audio.toggleMuteMusic(),
+      cycleTrack: () => this.audio.cycleTrack(),
     });
     this.touchInput.attach();
     this.touchInput.attachButtons({
-      left:     document.getElementById('btn-left'),
-      right:    document.getElementById('btn-right'),
-      softDrop: document.getElementById('btn-soft'),
-      hardDrop: document.getElementById('btn-hard'),
-      rotateCW:  document.getElementById('btn-rot-cw'),
-      rotateCCW: document.getElementById('btn-rot-ccw'),
-      pause:    document.getElementById('btn-pause'),
+      left:       document.getElementById('btn-left'),
+      right:      document.getElementById('btn-right'),
+      softDrop:   document.getElementById('btn-soft'),
+      hardDrop:   document.getElementById('btn-hard'),
+      rotateCW:   document.getElementById('btn-rot-cw'),
+      rotateCCW:  document.getElementById('btn-rot-ccw'),
+      pause:      document.getElementById('btn-pause'),
+      quit:       document.getElementById('btn-quit'),
+      toggleMute: document.getElementById('btn-mute'),
+      cycleTrack: document.getElementById('btn-track'),
     });
 
     this._turnstileToken = null;
@@ -97,6 +105,11 @@ class Game {
     });
   }
 
+  _syncTouchUI() {
+    this.touchControlsEl.style.display =
+      (this.state === 'playing' || this.state === 'paused') ? '' : 'none';
+  }
+
   _startGame() {
     this.scorer = new Scorer();
     this.engine = new Engine(this.scorer);
@@ -105,6 +118,7 @@ class Game {
     this.touchInput.setPaused(false);
     this.audio.setLevel(1);
     this.audio.startBGM();
+    this._syncTouchUI();
   }
 
   _move(dx) {
@@ -141,6 +155,7 @@ class Game {
       this.touchInput.setPaused(false);
       this.audio.resumeBGM();
     }
+    this._syncTouchUI();
   }
 
   _restart() {
@@ -163,6 +178,7 @@ class Game {
       this.touchInput.setPaused(false);
       this.engine = null;
       this.scorer = null;
+      this._syncTouchUI();
     }
   }
 
@@ -175,6 +191,7 @@ class Game {
       this.touchInput.setPaused(true);
       this.audio.stopBGM();
       this.audio.play('gameOver');
+      this._syncTouchUI();
       setTimeout(() => this._showNameEntry(), 1200);
       return;
     }
@@ -242,6 +259,7 @@ class Game {
     };
     this.nameOverlay.style.display = 'none';
     this.state = 'menu';
+    this._syncTouchUI();
 
     if (this._turnstileWidgetId != null && !this._turnstileToken) {
       await new Promise(resolve => {

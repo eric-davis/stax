@@ -37,7 +37,10 @@ export class TouchInputHandler {
     this._wireOneShot(map.hardDrop,  () => { if (!this.paused) this.cb.hardDrop();  });
     this._wireOneShot(map.rotateCW,  () => { if (!this.paused) this.cb.rotateCW();  });
     this._wireOneShot(map.rotateCCW, () => { if (!this.paused) this.cb.rotateCCW(); });
-    this._wireOneShot(map.pause,     () => this.cb.pause());
+    this._wireOneShot(map.pause,      () => this.cb.pause());
+    this._wireOneShot(map.quit,       () => { if (!this.paused) this.cb.quit?.(); });
+    this._wireOneShot(map.toggleMute, () => this.cb.toggleMute?.());
+    this._wireOneShot(map.cycleTrack, () => this.cb.cycleTrack?.());
   }
 
   _wireDAS(el, action, dir, delay, repeat) {
