@@ -20,6 +20,8 @@ STAX: Neon Edition is a fast-paced, addictive falling-block puzzle game inspired
 
 **Play Online:** [https://esdavis.dev/stax](https://esdavis.dev/stax) — no setup needed.
 
+**Test Environment:** [https://test.esdavis.dev/stax](https://test.esdavis.dev/stax) — latest `main` build (shows `dev` as version).
+
 ### Run Locally
 
 This game requires a simple HTTP server to run due to the use of ES modules. You cannot simply open `index.html` in your browser.
@@ -61,3 +63,18 @@ This game requires a simple HTTP server to run due to the use of ES modules. You
 *   `favicon.svg`: SVG favicon used by the browser tab.
 *   `api/app.py`: Flask + SQLite REST API powering the global leaderboard.
 *   `api/requirements.txt`: Python dependencies for the API.
+
+## Deployment
+
+Two CI/CD pipelines handle deployments:
+- **Production:** Triggered by a published GitHub release. Deploys to `https://esdavis.dev/stax` and stamps the release tag into the `VERSION` constant via `sed`.
+- **Test:** Triggered by pushes to `main`. Deploys to `https://test.esdavis.dev/stax` and stamps `dev` as the `VERSION`.
+
+The Flask leaderboard API runs as a separate service:
+- Production: `stax-api`
+- Test: `stax-api-test`
+
+**Required Secrets:**
+- `DEPLOY_HOST`
+- `DEPLOY_USER`
+- `DEPLOY_KEY`
