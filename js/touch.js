@@ -1,3 +1,6 @@
+const DRAG_LOCK_PX = 12;
+const DRAG_STEP_PX = 20;
+
 export class TouchInputHandler {
   constructor(canvas, callbacks) {
     this.canvas = canvas;
@@ -7,6 +10,8 @@ export class TouchInputHandler {
     this._startX = 0;
     this._startY = 0;
     this._startTime = 0;
+    this._dragMode = null;
+    this._lastMoveX = 0;
     this._onTouchStart = this._onTouchStart.bind(this);
     this._onTouchMove  = this._onTouchMove.bind(this);
     this._onTouchEnd   = this._onTouchEnd.bind(this);
@@ -79,10 +84,29 @@ export class TouchInputHandler {
     this._startX = t.clientX;
     this._startY = t.clientY;
     this._startTime = Date.now();
+    this._dragMode = null;
+    this._lastMoveX = t.clientX;
   }
 
   _onTouchMove(e) {
     e.preventDefault();
+    if (this.paused) return;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - this._startX;
+    const dy = t.clientY - this._startY;
+
+    if (this._dragMode === null && Math.hypot(dx, dy) >= DRAG_LOCK_PX) {
+      this._dragMode = Math.abs(dx) >= Math.abs(dy) ? 'horizontal' : 'vertical';
+    }
+
+    if (this._dragMode === 'horizontal') {
+      const steps = Math.trunc((t.clientX - this._lastMoveX) / DRAG_STEP_PX);
+      if (steps !== 0) {
+        const action = steps > 0 ? this.cb.moveRight : this.cb.moveLeft;
+        for (let i = 0; i < Math.abs(steps); i++) action();
+        this._lastMoveX += steps * DRAG_STEP_PX;
+      }
+    }
   }
 
   _onTouchEnd(e) {
@@ -94,10 +118,10 @@ export class TouchInputHandler {
     const dist = Math.hypot(dx, dy);
     const dt = Date.now() - this._startTime;
 
+    if (this._dragMode === 'horizontal') return;
+
     if (dist < 15 && dt < 250) {
       this.cb.rotateCW();
-    } else if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) >= 20) {
-      dx < 0 ? this.cb.moveLeft() : this.cb.moveRight();
     } else if (dy >= 20 && Math.abs(dy) >= Math.abs(dx)) {
       dy / dt >= 0.8 ? this.cb.hardDrop() : this.cb.softDrop();
     }
