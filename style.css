@@ -10,10 +10,22 @@ html, body {
   font-family: 'Courier New', monospace;
 }
 
+body {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
 #container {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+#game-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-height: 100%;
 }
 
 #game-canvas {
@@ -123,12 +135,6 @@ body::after {
 
 #turnstile-container { display: none; }
 
-/* Mobile: stack canvas above touch controls */
-html, body {
-  flex-direction: column;
-  padding-top: env(safe-area-inset-top, 0px);
-}
-
 /* Prevent scroll/zoom when touching the canvas */
 #game-canvas {
   touch-action: none;
@@ -139,7 +145,7 @@ html, body {
   flex-direction: column;
   gap: 8px;
   padding: 8px 8px env(safe-area-inset-bottom, 8px);
-  width: 100%;
+  align-self: stretch;
   background: rgba(3,3,20,0.6);
 }
 
